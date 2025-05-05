@@ -343,21 +343,24 @@
             data["visa_url"] = visaBase64;
           }
 
-          // Menyimpan tanda tangan digital ke Firebase
+                   // Menyimpan tanda tangan digital ke Firebase
           data["tanda_tangan"] = canvas.toDataURL();
-          data["timestamp"] = new Date().toISOString();
 
           // Simpan data ke Firebase Realtime Database
-          const newFormRef = database.ref("penyewaan_motor").push();
-          newFormRef.set(data);
+          const newRef = database.ref("penyewaan").push();
+          await newRef.set(data);
 
           alert("Formulir berhasil dikirim!");
+
+          // Reset form dan canvas setelah submit
           form.reset();
           ctx.clearRect(0, 0, canvas.width, canvas.height);
         } catch (error) {
-          alert("Terjadi kesalahan saat mengirim formulir.");
+          console.error("Terjadi kesalahan:", error);
+          alert("Gagal mengirim formulir. Silakan coba lagi.");
         }
       });
     </script>
   </body>
 </html>
+
